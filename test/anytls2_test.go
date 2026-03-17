@@ -296,6 +296,7 @@ func TestAnyTLS2HTTP2ReverseProxySelf(t *testing.T) {
 					Transport: &option.V2RayTransportOptions{
 						Type: C.V2RayTransportTypeHTTP,
 						HTTPOptions: option.V2RayHTTPOptions{
+							Host: []string{"example.org"},
 							Path: httpPath,
 						},
 					},
@@ -325,6 +326,7 @@ func TestAnyTLS2HTTP2ReverseProxySelf(t *testing.T) {
 					Transport: &option.V2RayTransportOptions{
 						Type: C.V2RayTransportTypeHTTP,
 						HTTPOptions: option.V2RayHTTPOptions{
+							Host: []string{"example.org"},
 							Path: httpPath,
 						},
 					},
@@ -519,7 +521,7 @@ func TestAnyTLS2NegativeTransportPathMismatch(t *testing.T) {
 					ListenOptions: option.ListenOptions{Listen: common.Ptr(badoption.Addr(netip.IPv4Unspecified())), ListenPort: serverPort},
 					Users:         []option.AnyTLSUser{{Name: "sekai", Password: "password"}},
 					InboundTLSOptionsContainer: option.InboundTLSOptionsContainer{TLS: &option.InboundTLSOptions{Enabled: true, ServerName: "example.org", CertificatePath: certPem, KeyPath: keyPem}},
-					Transport: &option.V2RayTransportOptions{Type: C.V2RayTransportTypeHTTP, HTTPOptions: option.V2RayHTTPOptions{Path: "/anytls-a"}},
+					Transport: &option.V2RayTransportOptions{Type: C.V2RayTransportTypeHTTP, HTTPOptions: option.V2RayHTTPOptions{Host: []string{"example.org"}, Path: "/anytls-a"}},
 				}},
 			},
 			Outbounds: []option.Outbound{
@@ -527,7 +529,7 @@ func TestAnyTLS2NegativeTransportPathMismatch(t *testing.T) {
 				{Type: C.TypeAnyTLS2, Tag: "anytls2-out", Options: &option.AnyTLS2OutboundOptions{
 					ServerOptions: option.ServerOptions{Server: "127.0.0.1", ServerPort: serverPort}, Password: "password", IdleSessionCheckInterval: badoption.Duration(6 * time.Second),
 					OutboundTLSOptionsContainer: option.OutboundTLSOptionsContainer{TLS: &option.OutboundTLSOptions{Enabled: true, ServerName: "example.org", CertificatePath: certPem}},
-					Transport:                   &option.V2RayTransportOptions{Type: C.V2RayTransportTypeHTTP, HTTPOptions: option.V2RayHTTPOptions{Path: "/anytls-b"}},
+					Transport:                   &option.V2RayTransportOptions{Type: C.V2RayTransportTypeHTTP, HTTPOptions: option.V2RayHTTPOptions{Host: []string{"example.org"}, Path: "/anytls-b"}},
 				}},
 			},
 			Route: &option.RouteOptions{Rules: []option.Rule{{Type: C.RuleTypeDefault, DefaultOptions: option.DefaultRule{RawDefaultRule: option.RawDefaultRule{Inbound: []string{"mixed-in"}}, RuleAction: option.RuleAction{Action: C.RuleActionTypeRoute, RouteOptions: option.RouteActionOptions{Outbound: "anytls2-out"}}}}}},

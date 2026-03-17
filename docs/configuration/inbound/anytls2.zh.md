@@ -144,10 +144,13 @@ HTTP/2 的流多路复用使每个 AnyTLS2 会话对应一个独立的 H2 流，
   ],
   "transport": {
     "type": "http",
+    "host": ["example.org"],
     "path": "/anytls-http2"
   }
 }
 ```
+
+建议为 HTTP 传输显式设置 `transport.host`。如果省略，客户端默认 Host 可能与 nginx 的 `server_name` 不一致。
 
 对应的 nginx 配置（`proxy_http_version 2` 启用 h2c 上游代理）：
 

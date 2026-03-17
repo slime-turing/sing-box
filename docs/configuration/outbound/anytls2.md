@@ -112,10 +112,13 @@ See the matching inbound example for the nginx configuration.
   },
   "transport": {
     "type": "http",
+    "host": ["example.org"],
     "path": "/anytls-http2"
   }
 }
 ```
+
+Set `transport.host` explicitly for HTTP transport so the request Host aligns with your nginx `server_name`.
 
 ### Example (QUIC, direct)
 

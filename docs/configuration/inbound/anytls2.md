@@ -145,10 +145,13 @@ avoiding TCP head-of-line blocking on the nginx→backend leg.
   ],
   "transport": {
     "type": "http",
+    "host": ["example.org"],
     "path": "/anytls-http2"
   }
 }
 ```
+
+Set `transport.host` explicitly for HTTP transport. If omitted, the client-side default Host may not match your nginx `server_name`.
 
 Matching nginx config (`proxy_http_version 2` enables h2c upstream):
 

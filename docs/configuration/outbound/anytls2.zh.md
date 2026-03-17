@@ -112,10 +112,13 @@ AnyTLS 已经内置会话多路复用，多个被代理连接会原生共享一�
   },
   "transport": {
     "type": "http",
+    "host": ["example.org"],
     "path": "/anytls-http2"
   }
 }
 ```
+
+建议为 HTTP 传输显式设置 `transport.host`，使请求 Host 与 nginx 的 `server_name` 保持一致。
 
 ### 示例（QUIC，直连）
 
